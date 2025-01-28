@@ -44,7 +44,7 @@ REGISTERS: A: 50, B: 3c, C: xx, D: xx, E: xx, F: xx, G: xx, Temp: xx
 rtl/tb/machine_tb.v:54: $stop called at 1860 (1s)
 ```
 
-## Explanation and Working
+## **Explanation and Working**
 ## Reading file and Lexer
 in the first phase, simplelang.exe binary will read the code file & store the data in a string buffer.
 next we will pass the buffer to the  `tokenize(const char * )`
