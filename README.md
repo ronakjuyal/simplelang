@@ -50,7 +50,8 @@ in the first phase, simplelang.exe binary will read the code file & store the da
 next we will pass the buffer to the  `tokenize(const char * )`
 >generated tokens -
 ```
-<0,int>  <2,c> <12,;>  <2,c>  <4,=>  <3,20>  <12,;> <1,if>  <8,(>  <2,c>  <7,==>  <3,20>  <9,)>  <10,{>  <2,c>  <4,=>  <2,c>  <5,+>  <3,60>  <12,;>  <11,}>  <13,EOF>
+<0,int>  <2,c> <12,;>  <2,c>  <4,=>  <3,20>  <12,;> <1,if>  <8,(>  <2,c>  <7,==>  <3,20>  <9,)>
+<10,{>  <2,c><4,=>  <2,c>  <5,+>  <3,60>  <12,;>  <11,}>  <13,EOF>
 ```
 * in this phase, compiler will check for all symbol,keyword,identifiers that are defined in the construct and tokenize the program with it type as bellow mentioned 
 
