@@ -14,6 +14,8 @@ This assignment contains:
 > 8-bit computer by lightcode was based on python-2 and designed to run on linux terminal, in this assignment i have modified the source code for *python-3   on windows*
 
 ## How ro run SimpleLang code
+>requirment 
+> * Icarus Verilog,   
 Since compiler include multiple components and Bash command so it would be best to include every components and Bash command in single instruction. *this include running 8-bit computer simulator*
 
 - start by write the SimpleLang code in a text file
