@@ -117,7 +117,7 @@ sta %a
 
     c = 0
 ```
->aditinoally to display the tokenized code and AST, Run compile command and with 'd' at teh end: 
+>aditinoally to display the tokenized code and AST, Run compile command and with 'd' at the end: 
 ```
 simplelang code.txt d
 ```
