@@ -15,7 +15,9 @@ This assignment contains:
 
 ## How ro run SimpleLang code
 >requirment 
-> * Icarus Verilog,   
+> * Icarus Verilog
+> * python3
+> * Mingw (mingw32-make)  
 Since compiler include multiple components and Bash command so it would be best to include every components and Bash command in single instruction. *this include running 8-bit computer simulator*
 
 - start by write the SimpleLang code in a text file
