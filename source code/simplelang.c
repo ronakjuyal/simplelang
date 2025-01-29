@@ -97,28 +97,28 @@ void checkSymbol(const char* value ){
     printf("error: keyword- '%s' not defined", value);
     exit(1);
 }
-// Advance the current character pointer
+
 void advance() {
     if (src[pos] != '\0') {
         currentChar = src[++pos];
     }
 }
 
-// Skip whitespace
+
 void skipWhitespace() {
     while (isspace(currentChar)) {
         advance();
     }
 }
 
-// Check if a string is a keyword
+
 TokenType checkKeyword(char *str) {
     if (strcmp(str, "int") == 0) return TOKEN_INT;
     if (strcmp(str, "if") == 0) return TOKEN_IF;
     return TOKEN_IDENTIFIER;
 }
 
-// Get an identifier or keyword
+
 Token identifier() {
     Token token;
     int i = 0;
@@ -131,7 +131,7 @@ Token identifier() {
     return token;
 }
 
-// Get a number token
+
 Token number() {
     Token token;
     int i = 0;
@@ -144,7 +144,7 @@ Token number() {
     return token;
 }
 
-// Tokenize the source code
+
 void tokenize(char *source) {
     src = source;
     pos = 0;
@@ -217,14 +217,14 @@ void tokenize(char *source) {
     storeToken(token);
 }
 
-// Store the token
+
 void storeToken(Token token) {
     if (tokenCount < MAX_TOKENS) {
         tokens[tokenCount++] = token;
     }
 }
 
-// Get the next token
+
 Token getNextToken() {
     if (currentTokenIndex < tokenCount) {
         return tokens[currentTokenIndex++];
@@ -240,7 +240,7 @@ void printTokens() {
 }
 
 
-// Peek the current token without consuming it
+
 Token peekToken() {
     if (currentTokenIndex < tokenCount) {
         return tokens[currentTokenIndex];
@@ -284,9 +284,9 @@ ASTNode* parseStatement() {
     exit(1);
 }
 
-// Parse variable declaration
+/
 ASTNode* parseVarDeclaration() {
-    getNextToken();  // Consume 'int'
+    getNextToken();
     Token identifier = getNextToken();
 
     if (identifier.type != TOKEN_IDENTIFIER) {
@@ -314,7 +314,7 @@ ASTNode* parseVarDeclaration() {
     return createNode(NODE_VAR_DECL, identifier.value);
 }
 
-// Parse assignment statements
+
 ASTNode* parseAssignment() {
     
     Token identifier = getNextToken();
@@ -344,7 +344,7 @@ ASTNode* parseAssignment() {
     return node;
 }
 
-// Parse expressions (supports only addition for now)
+
 ASTNode* parseExpression() {
     Token token = getNextToken();
 
@@ -354,10 +354,10 @@ ASTNode* parseExpression() {
         checkSymbol(token.value);
         ASTNode* node = createNode(NODE_IDENTIFIER, token.value);
 
-        // Check for binary operators (+, -)
+        
         Token nextToken = peekToken();
         if (nextToken.type == TOKEN_PLUS || nextToken.type == TOKEN_MINUS) {
-            getNextToken();  // Consume the operator
+            getNextToken();  
             ASTNode* binaryNode = createNode(
                 nextToken.type == TOKEN_PLUS ? NODE_BINARY_OP : NODE_BINARY_OP,
                 nextToken.type == TOKEN_PLUS ? "+" : "-"
@@ -381,7 +381,7 @@ ASTNode* parseExpression() {
 
 // Parse if statements
 ASTNode* parseIfStatement() {
-    getNextToken();  // Consume 'if'
+    getNextToken();  
 
     Token lparen = getNextToken();
     if (lparen.type != TOKEN_LPAREN) {
@@ -426,7 +426,6 @@ ASTNode* createNode(ASTNodeType type, const char* value) {
     return node;
 }
 
-// Print the AST
 void AST(ASTNode* node, int indent) {
     if (!node) return;
 
@@ -473,15 +472,14 @@ void Assembly(ASTNode* node){
 }
 
 void generateAssignment(ASTNode* node) {
-    // Expect left child (variable) and right child (expression)
     if (!node->left || !node->right) {
         printf("Error: Invalid assignment node\n");
         exit(1);
     }
 
-    generateExpression(node->right); // Generate code for the right-hand side
-    fprintf(asmFile, "sta %%%s\n", node->left->value); // Store the result in the variable
-                   // Restore the saved value
+    generateExpression(node->right); 
+    fprintf(asmFile, "sta %%%s\n", node->left->value); 
+                  
 }
 
 void generateExpression(ASTNode* node) {
@@ -496,18 +494,18 @@ void generateExpression(ASTNode* node) {
             break;
         case NODE_BINARY_OP:
             if (node->left && node->right) {
-                //fprintf(asmFile, "PUSH\n");              // Save the current value
-                generateExpression(node->left); // Left operand
+                //fprintf(asmFile, "PUSH\n");              
+                generateExpression(node->left); 
                 fprintf(asmFile, "ldi B %s\n",node->right->value);
                 if (strcmp(node->value, "+") == 0) {
-                    fprintf(asmFile, "add\n");       // Add the two values
+                    fprintf(asmFile, "add\n");       
                 } else if (strcmp(node->value, "-") == 0) {
-                    fprintf(asmFile, "sub\n");       // Subtract the two values
+                    fprintf(asmFile, "sub\n");       
                 } else {
                     printf("Error: Unsupported binary operator '%s'\n", node->value);
                     exit(1);
                 }
-                //fprintf(asmFile, "POP\n");               // Restore the saved value
+                //fprintf(asmFile, "POP\n");               
             }
             break;
         case NODE_CONDITION:
@@ -523,11 +521,11 @@ void generateExpression(ASTNode* node) {
 }
 
 void generateLiteral(ASTNode* node) {
-    fprintf(asmFile, "ldi A %s\n", node->value); // Load literal into accumulator
+    fprintf(asmFile, "ldi A %s\n", node->value); 
 }
 
 void generateIdentifier(ASTNode* node) {
-    fprintf(asmFile, "lda %%%s\n", node->value); // Load variable value into accumulator
+    fprintf(asmFile, "lda %%%s\n", node->value); 
 }
 
 void generateIfStatement(ASTNode* node) {
@@ -536,19 +534,16 @@ void generateIfStatement(ASTNode* node) {
         exit(1);
     }
 
-    // Generate condition evaluation
     generateExpression(node->condition);
 
-    // Output comparison instruction
     static int labelCount = 0;
     int labelNum = labelCount++;
-    fprintf(asmFile, "cmp\n");                  // Compare accumulator with the condition's value
+    fprintf(asmFile, "cmp\n");                  
     if(strcmp(node->condition->value,"==")==0){
-        fprintf(asmFile, "je %%IF_TRUE_%d\n", labelNum); // Jump to IF_TRUE if condition is true
+        fprintf(asmFile, "je %%IF_TRUE_%d\n", labelNum);
     }else fprintf(asmFile, "jne %%IF_TRUE_%d\n", labelNum);
-    fprintf(asmFile, "jmp %%END_IF_%d\n", labelNum);  // Jump to the end if the condition is false
+    fprintf(asmFile, "jmp %%END_IF_%d\n", labelNum); 
 
-    // Generate the 'if' body
     fprintf(asmFile, "IF_TRUE_%d:\n", labelNum);
     Assembly(node->body);
 
@@ -590,6 +585,7 @@ int main(int argc, char *argv[]) {
     asmFile=fopen("a.asm","w");
     generateAssembly(ast);
     fclose(asmFile);
+    //bash command to make memory list , clean makefiles and run the simulator
     system("python asm\\asm.py a.asm > memory.list");
     system("mingw32-make clean");
     system("mingw32-make run");
