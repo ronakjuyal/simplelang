@@ -73,10 +73,6 @@ this is the most crucial phase of compiler, this creates a AST, that represents 
 <img src="./images/DIAGRAM.jpeg" height =250>
 
 
-typedef enum {
-    NODE_VAR_DECL, NODE_ASSIGN, NODE_BINARY_OP, NODE_IF, NODE_LITERAL, NODE_IDENTIFIER, NODE_CONDITION
-} ASTNodeType;
-
 ## Assmbly Code Generation
 
 in this phase travers through the AST tree and provies the suitable Instruction sets for 8-bit simulator computer
@@ -114,5 +110,9 @@ sta %a
 .data
 
     c = 0
+```
+>aditinoally to display the tokenized code and AST, Run compile command and with 'd' at teh end: 
+```
+simplelang code.txt d
 ```
 
